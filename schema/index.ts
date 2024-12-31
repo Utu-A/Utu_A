@@ -3,8 +3,7 @@ import * as z from 'zod'
 export const navItems = [
     { name: "Home", link: "/" },
     { name: "About", link: "/components/About.tsx" },
-    { name: "Services", link: "/components/Services.tsx" },
-    { name: "Work", link: "/components/Work.tsx" },
+    { name: "Projects", link: "/components/Work.tsx" },
     { name: "Contact", link: "auth/contact" },
 ];
 
