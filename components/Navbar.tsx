@@ -1,22 +1,42 @@
+// components/Navbar.tsx
+"use client";
+
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { FloatingNav } from "@/components/ui/floating-navbar";
+import { IconHome, IconUser, IconBriefcase, IconMail } from "@tabler/icons-react";
 
 const Navbar = () => {
-  return (
-    <nav className="flex justify-between items-center mb-12 p-4">
-      <h1 className="text-2xl font-bold">Portfolio</h1>
+  // Navigation items for the floating navbar
+  const navItems = [
+    {
+      name: "Home",
+      link: "/",
+      icon: <IconHome className="h-4 w-4" />,
+    },
+    {
+      name: "About",
+      link: "/about",
+      icon: <IconUser className="h-4 w-4" />,
+    },
+    {
+      name: "Projects",
+      link: "/project",
+      icon: <IconBriefcase className="h-4 w-4" />,
+    },
+    {
+      name: "Contact",
+      link: "/auth/contact",
+      icon: <IconMail className="h-4 w-4" />,
+    },
+  ];
 
-      <div className="flex gap-6 items-center">
-        <Link href="/" className="hover:text-gray-300">Home</Link>
-        <Link href="about" className="hover:text-gray-300">About</Link>
-        <Link href="project" className="hover:text-gray-300">Projects</Link>
-        <Link href="auth/contact" className="hover:text-gray-300">Contact</Link>
-        <ThemeToggle />
-        <button className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
-          Hire Me
-        </button>
-      </div>
-    </nav>
+  return (
+    <FloatingNav 
+      navItems={navItems} 
+      className="top-4" // Positioning from top
+      alwaysVisible={true} // New prop to control visibility
+    />
   );
 };
 

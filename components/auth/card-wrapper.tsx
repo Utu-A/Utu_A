@@ -4,10 +4,8 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardFooter
 } from "@/components/ui/card";
 import AuthHeader from "./auth-header";
-import BackButton from "./back-button";
 
 interface CardWrapperProps {
     label: string
@@ -27,9 +25,6 @@ const CardWrapper = ({label, title, backButtonHref, backButtonLabel, children}: 
         <CardContent>
             {children}
         </CardContent>
-        <CardFooter>
-            <BackButton label={backButtonLabel} href={backButtonHref} />
-        </CardFooter>
     </Card>
   )
 }
