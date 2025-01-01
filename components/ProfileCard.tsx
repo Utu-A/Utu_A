@@ -36,7 +36,7 @@ const ProfileCard = () => {
           <Twitter size={20} />
         </a>
         <a
-          href="https://www.linkedin.com/in/your_linkedin_handle"
+          href="https://www.linkedin.com/in/utkarshsinghrajput23/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn Profile"
@@ -45,7 +45,7 @@ const ProfileCard = () => {
           <Linkedin size={20} />
         </a>
         <a
-          href="https://github.com/your_github_handle"
+          href="https://github.com/Utu-A"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub Profile"

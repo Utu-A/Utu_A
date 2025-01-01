@@ -25,6 +25,11 @@ const Navbar = () => {
       icon: <IconBriefcase className="h-4 w-4" />,
     },
     {
+      name: "Research",
+      link: "/research",
+      icon: <IconBriefcase className="h-4 w-4" />,
+    },
+    {
       name: "Contact",
       link: "/auth/contact",
       icon: <IconMail className="h-4 w-4" />,

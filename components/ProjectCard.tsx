@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { motion } from 'framer-motion';
-import { Github } from 'lucide-react';
+import { Github, Loader2 } from 'lucide-react';
 import { fetchRepoReadme } from '@/lib/github';
 
 interface Repo {
@@ -23,14 +23,24 @@ interface ProjectCardProps {
 const ProjectCard = ({ repo }: ProjectCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [readme, setReadme] = useState<string | null>(null);
-  const username = "your-github-username"; // Replace with your GitHub username
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const username = "Utu-A"; // Your actual GitHub username
 
   const handleClick = async () => {
-    if (!readme) {
-      const fetchedReadme = await fetchRepoReadme(username, repo.name);
-      setReadme(fetchedReadme);
-    }
     setIsOpen(true);
+    if (!readme && !error) {
+      setIsLoading(true);
+      try {
+        const fetchedReadme = await fetchRepoReadme(username, repo.name);
+        setReadme(fetchedReadme);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load README');
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
@@ -55,18 +65,27 @@ const ProjectCard = ({ repo }: ProjectCardProps) => {
       </motion.div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{repo.name}</DialogTitle>
           </DialogHeader>
           <div className="prose dark:prose-invert">
-            {readme ? (
-              <pre className="whitespace-pre-wrap">{readme}</pre>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="w-8 h-8 animate-spin" />
+              </div>
+            ) : error ? (
+              <div className="text-red-500">
+                <p>{error}</p>
+                <p className="mt-4">{repo.description}</p>
+              </div>
             ) : (
-              <p>Loading README...</p>
+              <div className="whitespace-pre-wrap">
+                {readme || repo.description || "No content available."}
+              </div>
             )}
           </div>
-          <div className="mt-4">
+          <div className="mt-4 flex justify-between items-center">
             <a
               href={repo.html_url}
               target="_blank"
@@ -75,6 +94,9 @@ const ProjectCard = ({ repo }: ProjectCardProps) => {
             >
               View on GitHub
             </a>
+            <p className="text-sm text-muted-foreground">
+              Last updated: {new Date(repo.updated_at).toLocaleDateString()}
+            </p>
           </div>
         </DialogContent>
       </Dialog>
