@@ -9,37 +9,31 @@ const spinningTexts = ["Who am I?", "Your best chance?", "I'm Batman"];
 
 const workExperience = [
   {
-    company: "Google",
-    role: "SDE3",
-    duration: "1994 - 2000",
-    logo: "/logos/google.png", // Replace with the correct path
+    company: "Cognizant(Upcoming)",
+    role: "Programmer Analyst Trainee",
+    duration: "2025 - Current Year",
+    logo: "/images/cognizant.png", // Replace with the correct path
   },
   {
-    company: "Microsoft",
-    role: "SDE2",
-    duration: "1984 - 1994",
-    logo: "/logos/microsoft.png", // Replace with the correct path
-  },
-  {
-    company: "Blackrock",
-    role: "SDE1",
-    duration: "1950 - 1984",
-    logo: "/logos/blackrock.png", // Replace with the correct path
+    company: "FirePrime Pvt. Ltd.",
+    role: "Internship",
+    duration: "Jan, 2024 - Feb, 2024",
+    logo: "/images/FirePrime.jpg", // Replace with the correct path
   },
 ];
 
 const education = [
   {
-    institution: "Oxford College",
-    degree: "Engineering",
-    duration: "1990 - 1993",
-    logo: "/logos/oxford.png", // Replace with the correct path
+    institution: "Savitribai Phule Pune University",
+    degree: "Bachelor in Electrical Engineering",
+    duration: "2021 - 2025",
+    logo: "/images/sppu.png", // Replace with the correct path
   },
   {
-    institution: "Harvard College",
-    degree: "PG Diploma in MTech",
-    duration: "1993 - 1995",
-    logo: "/logos/harvard.png", // Replace with the correct path
+    institution: "Boys' High School and College",
+    degree: "Higher Secondary Education",
+    duration: "2019-2021",
+    logo: "/images/bhs.png", // Replace with the correct path
   },
 ];
 
@@ -69,10 +63,10 @@ const About = () => {
 
         <div className="space-y-6">
           <p className="text-lg leading-7">
-            Hello! My name is Matt, and I am an Electrical Engineering final-year student with a strong passion for technology and innovation. I am a seasoned software developer with a focus on creating efficient and scalable solutions, and I actively contribute as a cybersecurity leader at my college.
+            Hello! My name is Utkarsh, and I am an Electrical Engineering final-year student with a strong passion for technology and innovation. I am a seasoned software developer with a focus on creating efficient and scalable solutions, and I actively contribute as an AI/ML, Robotics and cybersecurity leader at my college.
           </p>
           <p className="text-lg leading-7">
-            I have the honor of serving as the secretary of the robotics team, where I help spearhead cutting-edge projects, and as the payload lead for the rocketry team, where I guide the design and development of payload systems. My research in quantum communication, certified by Microsoft and Google, is a testament to my dedication to pushing the boundaries of what technology can achieve.
+            I have the honor of serving as the secretary of the Robotics team, where I help spearhead cutting-edge projects, and as the payload lead for the Rocketry team, where I guide the design and development of payload systems. My research in Quantum communication, certified by Microsoft and Google, is a testament to my dedication to pushing the boundaries of what technology can achieve.
           </p>
           <p className="text-lg leading-7">
             Beyond academics and research, I am deeply committed to fostering teamwork, continuous learning, and innovation. This portfolio showcases my journey, projects, and aspirations. Feel free to explore and connect with me to discuss collaboration opportunities!

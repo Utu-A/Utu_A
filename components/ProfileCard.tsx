@@ -24,11 +24,11 @@ const ProfileCard: React.FC = () => {
       </div>
       <h2 className="text-2xl font-bold text-center mb-2">Utkarsh Singh</h2>
       <p className="text-muted-foreground text-center mb-6">
-        Developer and Researcher
+        Developer, Researcher and Inventor
       </p>
       <div className="flex justify-center gap-4">
         <a
-          href="https://www.discord.com/discord"
+          href="https://discord.com/users/1062079909243134083"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Discord Profile"
@@ -37,7 +37,7 @@ const ProfileCard: React.FC = () => {
           <FaDiscord size={20} />
         </a>
         <a
-          href="mailto:example@domain.com"
+          href="mailto:utkarshsingh2331@gmail.com"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Email"

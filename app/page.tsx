@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, ReactNode } from "react";
+import React, { useRef, ReactNode, useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import Introduction from "@/components/Introduction";
 import Projects from "@/components/Projects";
@@ -95,12 +95,19 @@ export default function HomePage() {
 
   const { theme } = useTheme();
 
-  const contactText = 
-  theme === "dark"
-    ? "Let's build something incredible together in the shadows of creativity!"
-    : theme === "light"
-      ? "I'm always excited to collaborate on new projects and discuss innovative ideas."
-      : "Welcome to the default mode, where innovation meets simplicity!";
+  const [contactText, setContactText] = useState(
+    "I'm always excited to collaborate on new projects and discuss innovative ideas."
+  );
+
+  useEffect(() => {
+    setContactText(
+      theme === "dark"
+        ? "Let's build something incredible together in the shadows of creativity!"
+        : theme === "light"
+          ? "I'm always excited to collaborate on new projects and discuss innovative ideas."
+          : "Welcome to the default mode, where innovation meets simplicity!"
+    );
+  }, [theme]);
 
   return (
     <>

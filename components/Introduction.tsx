@@ -56,7 +56,7 @@ const Introduction = () => {
     <div className="bg-card rounded-2xl p-8 flex flex-col justify-center">
       <h3 className="text-xl mb-4">Hello There!</h3>
       <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-teal-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-        Securing systems, building robots, launching payloads, and redefining quantum tech.
+        Data Science, redefining Quantum tech, building Robots, launching Payloads, and Securing systems.
       </h2>
       <div className="flex items-center gap-2 mb-6">
         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -92,7 +92,7 @@ const Introduction = () => {
           {/* Centered Download Button */}
           <div className="mt-6 flex justify-center w-full">
             <a
-              href="https://google.com"
+              href="https://docs.google.com/document/d/1XtyuL-u3eJaQcQHUomMHpY0IQPtd2DNUBEXOJdvwiKY/export?format=pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors duration-300"

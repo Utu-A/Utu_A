@@ -28,19 +28,19 @@ export function ResearchTimeline() {
       abstract: "This research explores novel implementations of the BB84 quantum key distribution protocol, demonstrating significant improvements in security and efficiency. Our findings show a 40% reduction in quantum bit error rate while maintaining practical implementation feasibility.",
       published: "January 2024",
       journal: "Quantum Information Processing",
-      impact: "Cited by 15 research groups worldwide",
-      pdfLink: "https://drive.google.com/file/d/your-file-id/view?usp=sharing"
+      impact: "Patent pending",
+      pdfLink: "https://docs.google.com/document/d/1ZGMEwHLRaZNBOWl_s4yNIPT8UKUbTAbm2BHws6PBU-U/export?format=pdf"
     },
   ];
 
   const researchPapers2025: ResearchPaper[] = [
     {
       title: "Solar panel cleaner without use of water",
-      abstract: "We present an innovative approach to solar panel cleaning that eliminates water usage through electrostatic dust repulsion combined with mechanical automation. This system achieves 95% cleaning efficiency while reducing maintenance costs by 60%.",
-      published: "March 2024",
+      abstract: "We present an innovative approach to solar panel cleaning that eliminates water usage through electrostatic dust repulsion combined with mechanical automation. This system achieves 95% cleaning efficiency while reducing maintenance costs by 60% and saving water.",
+      published: "Feb 2025",
       journal: "Renewable Energy Technologies",
-      impact: "Patent pending, adopted by 3 major solar farms",
-      pdfLink: "https://drive.google.com/file/d/your-file-id/view?usp=sharing"
+      impact: "Patent pending, sponsered by major motor company",
+      pdfLink: "https://docs.google.com/document/d/1XtyuL-u3eJaQcQHUomMHpY0IQPtd2DNUBEXOJdvwiKY/export?format=pdf"
     },
   ];
 
@@ -76,7 +76,7 @@ export function ResearchTimeline() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Published groundbreaking research in quantum computing.
+            Published research in communication protocols through Quantum computing.
           </p>
           <div className="grid grid-cols-2 gap-4">
             {researchPapers2024.map((paper, index) => (
@@ -120,7 +120,7 @@ export function ResearchTimeline() {
             Research Journey
           </h1>
           <p className="text-neutral-600 dark:text-neutral-300 text-lg md:text-xl max-w-3xl mx-auto">
-            Exploring the frontiers of quantum computing and sustainable technology
+            Exploring the frontiers of Quantum computing and sustainable technology
           </p>
         </div>
         <div className="relative bg-white/5 backdrop-blur-sm rounded-xl p-6 md:p-8">
