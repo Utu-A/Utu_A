@@ -48,10 +48,36 @@ const nextConfig: NextConfig = {
     // Add your environment variables here
   },
 
-  // Webpack configuration if needed
+  // Webpack configuration with punycode warning suppression
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Add custom webpack configuration here if needed
+    // Suppress punycode deprecation warnings
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings || []),
+      {
+        module: /node_modules\/punycode/,
+      }
+    ];
+
+    // Warning suppression for Node.js modules
+    if (isServer) {
+      config.resolve = {
+        ...config.resolve,
+        fallback: {
+          ...config.resolve?.fallback,
+          punycode: false,
+        },
+      };
+    }
+
+    // Add any other custom webpack configuration here if needed
+    
     return config;
+  },
+
+  // Additional TypeScript specific options
+  typescript: {
+    // Optionally enable type checking during build
+    ignoreBuildErrors: false,
   },
 };
 

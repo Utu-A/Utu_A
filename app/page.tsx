@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useRef, ReactNode } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { motion, useScroll, useSpring } from "framer-motion";
 import Introduction from "@/components/Introduction";
 import Projects from "@/components/Projects";
 import { ResearchTimeline } from "@/components/Research";
@@ -10,16 +9,13 @@ import ProfileCard from "@/components/ProfileCard";
 import About from "@/components/About";
 import { useTheme } from "next-themes";
 
-// Define styles to hide scrollbar across different browsers
 const scrollbarHiddenStyles = `
-  /* Hide scrollbar for Chrome, Safari and Opera */
   ::-webkit-scrollbar {
     display: none;
   }
 
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const FadingText = ({ children }: { children: ReactNode }) => {
@@ -29,12 +25,10 @@ const FadingText = ({ children }: { children: ReactNode }) => {
     offset: ["start start", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-
   return (
     <motion.div
       ref={textRef}
-      style={{ opacity }}
+      style={{ opacity: scrollYProgress }}
       className="w-full"
     >
       {children}
@@ -99,40 +93,29 @@ export default function HomePage() {
     restDelta: 0.001,
   });
 
-  const backgroundColor = useTransform(
-    smoothProgress,
-    [0, 0.25, 0.5, 0.75, 1],
-    [
-      "rgb(2, 6, 23)",
-      "rgb(2, 6, 23)",
-      "rgb(2,22,23)",
-      "rgb(17, 24, 39)",
-      "rgb(2, 6, 23)",
-    ]
-  );
-
   const { theme } = useTheme();
 
-  const contactText =
-    theme === "dark"
-      ? "Let's build something incredible together in the shadows of creativity!"
-      : "I'm always excited to collaborate on new projects and discuss innovative ideas.";
+  const contactText = 
+  theme === "dark"
+    ? "Let's build something incredible together in the shadows of creativity!"
+    : theme === "light"
+      ? "I'm always excited to collaborate on new projects and discuss innovative ideas."
+      : "Welcome to the default mode, where innovation meets simplicity!";
 
   return (
     <>
       <style jsx global>
         {scrollbarHiddenStyles}
       </style>
-      <motion.div
+      <div
         ref={containerRef}
-        style={{ backgroundColor }}
-        className="transition-colors duration-500"
+        className="bg-background transition-colors duration-500"
       >
-      {/* Gradient Fade Overlay */}
-      <div className="pointer-events-none fixed left-0 top-0 h-24 w-full bg-background to-transparent backdrop-blur-sm [-webkit-mask-image:linear-gradient(to_bottom,black,transparent)] dark:bg-neutral-950" />
+        {/* Gradient Fade Overlay */}
+        <div className="pointer-events-none fixed left-0 top-0 h-24 w-full bg-background to-transparent backdrop-blur-sm [-webkit-mask-image:linear-gradient(to_bottom,black,transparent)]" />
       
         {/* Introduction Section */}
-        <Section className="bg-transparent">
+        <Section className="bg-background">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 max-w-7xl mx-auto">
             <ProfileCard />
             <Introduction />
@@ -140,33 +123,33 @@ export default function HomePage() {
         </Section>
 
         {/* About Section */}
-        <Section className="bg-transparent">
+        <Section className="bg-background">
           <div className="w-full max-w-7xl mx-auto px-6">
             <About />
           </div>
         </Section>
 
         {/* Projects Section */}
-        <Section className="bg-transparent">
+        <Section className="bg-background">
           <div className="w-full max-w-7xl mx-auto px-6">
             <Projects />
           </div>
         </Section>
 
         {/* Research Section */}
-        <Section className="bg-transparent">
+        <Section className="bg-background">
           <div className="w-full max-w-7xl mx-auto px-6">
             <ResearchTimeline />
           </div>
         </Section>
 
         {/* Contact Section */}
-        <Section className="bg-transparent">
+        <Section className="bg-background">
           <div className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center justify-center space-y-6">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-text text-transparent text-center">
               Ready to Start a Conversation?
             </h2>
-            <p className="text-lg text-slate-300 text-center max-w-2xl">
+            <p className="text-lg text-slate-300 dark:text-slate-300 text-center max-w-2xl">
               {contactText}
             </p>
             <ContactButton />
@@ -178,7 +161,7 @@ export default function HomePage() {
           className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 origin-left"
           style={{ scaleX: smoothProgress }}
         />
-      </motion.div>
+      </div>
     </>
   );
 }
