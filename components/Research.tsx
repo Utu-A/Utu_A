@@ -5,23 +5,24 @@ import { Timeline } from "@/components/ui/timeline";
 import { Dialog } from "@/components/ui/dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
+import useClickOutside from "@/hooks/useClickOutside"; // Import the hook
 
-// ... (previous interfaces and type definitions remain the same)
+// Define ResearchPaper interface
 interface ResearchPaper {
-    title: string;
-    abstract: string;
-    published: string;
-    journal: string;
-    impact: string;
-    pdfLink: string;
-  }
+  title: string;
+  abstract: string;
+  published: string;
+  journal: string;
+  impact: string;
+  pdfLink: string;
+}
 
 export function ResearchTimeline() {
   const [selectedPaper, setSelectedPaper] = React.useState<ResearchPaper | null>(null);
-  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const dialogRef = React.useRef<HTMLDivElement>(null); // Reference to the dialog
 
-  // Our research papers data remains the same
-  const researchPapers: ResearchPaper[] = [
+  // Research papers data
+  const researchPapers2024: ResearchPaper[] = [
     {
       title: "Advancements in Quantum Computing using BB84 protocol",
       abstract: "This research explores novel implementations of the BB84 quantum key distribution protocol, demonstrating significant improvements in security and efficiency. Our findings show a 40% reduction in quantum bit error rate while maintaining practical implementation feasibility.",
@@ -30,6 +31,9 @@ export function ResearchTimeline() {
       impact: "Cited by 15 research groups worldwide",
       pdfLink: "https://drive.google.com/file/d/your-file-id/view?usp=sharing"
     },
+  ];
+
+  const researchPapers2025: ResearchPaper[] = [
     {
       title: "Solar panel cleaner without use of water",
       abstract: "We present an innovative approach to solar panel cleaning that eliminates water usage through electrostatic dust repulsion combined with mechanical automation. This system achieves 95% cleaning efficiency while reducing maintenance costs by 60%.",
@@ -37,20 +41,45 @@ export function ResearchTimeline() {
       journal: "Renewable Energy Technologies",
       impact: "Patent pending, adopted by 3 major solar farms",
       pdfLink: "https://drive.google.com/file/d/your-file-id/view?usp=sharing"
-    }
+    },
   ];
 
-  // Timeline data structure remains the same
+  // Timeline data structure for 2024 and 2025
   const timelineData = [
+    {
+      title: "2025",
+      content: (
+        <div>
+          <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
+            Published innovative research in sustainable technology.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            {researchPapers2025.map((paper, index) => (
+              <div
+                key={index}
+                onClick={() => setSelectedPaper(paper)}
+                className="relative h-20 md:h-44 lg:h-60 w-full cursor-pointer group overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 bg-gray-200 dark:bg-gray-800"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300">
+                  <p className="absolute bottom-4 left-4 right-4 text-white text-sm font-medium">
+                    {paper.title}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    },
     {
       title: "2024",
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Published groundbreaking research in quantum computing and sustainable technology.
+            Published groundbreaking research in quantum computing.
           </p>
           <div className="grid grid-cols-2 gap-4">
-            {researchPapers.map((paper, index) => (
+            {researchPapers2024.map((paper, index) => (
               <div
                 key={index}
                 onClick={() => setSelectedPaper(paper)}
@@ -72,13 +101,16 @@ export function ResearchTimeline() {
   // Handler for PDF link clicks
   const handlePDFClick = (e: React.MouseEvent, pdfLink: string) => {
     e.stopPropagation();
-    window.open(pdfLink, '_blank');
+    window.open(pdfLink, "_blank");
   };
 
   // Handler for closing the dialog
   const handleClose = () => {
     setSelectedPaper(null);
   };
+
+  // Use the useClickOutside hook to close dialog when clicked outside
+  useClickOutside(dialogRef, handleClose);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -109,15 +141,15 @@ export function ResearchTimeline() {
               className="fixed inset-0 z-50 flex items-center justify-center p-4"
             >
               <div className="bg-white dark:bg-gray-900 rounded-xl p-6 max-w-2xl w-full shadow-xl relative">
-                {/* New, more prominent close button */}
-                <div className="absolute right-0 top-0 p-4">
+                {/* Close button styled to be above the image */}
+                <div className="absolute right-0 top-0 z-50 p-4">
                   <button
                     onClick={handleClose}
                     className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 group"
                     aria-label="Close dialog"
                   >
-                    <X 
-                      size={20} 
+                    <X
+                      size={20}
                       className="text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-white transition-colors duration-200"
                     />
                   </button>

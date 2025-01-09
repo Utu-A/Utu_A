@@ -1,47 +1,65 @@
 // components/Navbar.tsx
 "use client";
 
-import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { FloatingNav } from "@/components/ui/floating-navbar";
-import { IconHome, IconUser, IconBriefcase, IconMail } from "@tabler/icons-react";
+import { FloatingDock } from "@/components/ui/floating-dock";
+import { IconHome, IconBrandGithub, IconMail } from "@tabler/icons-react";
+import { Library, Terminal } from 'lucide-react';
+import { RiNotionFill } from "react-icons/ri";
+import { useTheme } from "next-themes";
 
 const Navbar = () => {
-  // Navigation items for the floating navbar
-  const navItems = [
+  const { theme } = useTheme();
+  
+  const dockItems = [
+    // Group 1: Home and Research
     {
-      name: "Home",
-      link: "/",
-      icon: <IconHome className="h-4 w-4" />,
+      title: "Home",
+      icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "/",
+      group: 1
     },
     {
-      name: "About",
-      link: "/about",
-      icon: <IconUser className="h-4 w-4" />,
+      title: "Research",
+      icon: <Library className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "/research",
+      group: 1
+    },
+    // Group 2: Projects, Notion, and Github
+    {
+      title: "Projects",
+      icon: <Terminal className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "/project",
+      group: 2
     },
     {
-      name: "Projects",
-      link: "/project",
-      icon: <IconBriefcase className="h-4 w-4" />,
+      title: "Notion",
+      icon: <RiNotionFill className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "https://notion.so/yourusername",
+      group: 2
     },
     {
-      name: "Research",
-      link: "/research",
-      icon: <IconBriefcase className="h-4 w-4" />,
+      title: "GitHub",
+      icon: <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "https://github.com/yourusername",
+      group: 2
     },
+    // Group 3: Contact-Me
     {
-      name: "Contact",
-      link: "/auth/contact",
-      icon: <IconMail className="h-4 w-4" />,
+      title: "Contact-Me",
+      icon: <IconMail className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "/auth/contact",
+      group: 3
     },
   ];
 
   return (
-    <FloatingNav 
-      navItems={navItems} 
-      className="top-4" // Positioning from top
-      alwaysVisible={true} // New prop to control visibility
-    />
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4">
+      <FloatingDock
+        items={dockItems}
+        desktopClassName="top-0"
+        mobileClassName="top-0"
+      />
+    </div>
   );
 };
 

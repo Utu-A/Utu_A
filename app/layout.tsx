@@ -27,16 +27,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {/* Adding both navigation components for complete functionality */}
+          <main className="pb-24">
+            {children}
+          </main>
           <Navbar />
-          {children}
         </ThemeProvider>
       </body>
     </html>

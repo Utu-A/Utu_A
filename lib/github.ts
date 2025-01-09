@@ -1,72 +1,133 @@
 // lib/github.ts
-export const fetchUserRepos = async (username: string) => {
-  const githubToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const url = `https://api.github.com/users/${username}/repos?per_page=100`;
 
-  // Debug logs
-  console.log('Username:', username);
-  console.log('Token exists:', !!githubToken);
-  console.log('API URL:', url);
+interface LanguageData {
+  [key: string]: number;
+}
+
+// Function to fetch all repositories for a user
+export const fetchUserRepos = async (username: string) => {
+  if (!username) {
+    throw new Error('Username is required');
+  }
+
+  const githubToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+  const url = `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`;
 
   try {
+    const headers: HeadersInit = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
+
+    if (githubToken) {
+      headers.Authorization = `Bearer ${githubToken}`;
+    }
+
     const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${githubToken}`,
-        Accept: "application/vnd.github.v3+json",
-      },
+      headers,
+      next: {
+        revalidate: 3600
+      }
     });
 
-    console.log('Response status:', response.status);
-
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response:', errorText);
-      throw new Error(`GitHub API error: ${response.status} ${errorText}`);
+      const errorData = await response.text();
+      throw new Error(`GitHub API error: ${response.status} ${errorData}`);
     }
 
     const data = await response.json();
-    console.log('Fetched repos count:', data.length);
     return data;
   } catch (error) {
-    console.error('Fetch error:', error);
-    return [];
+    console.error('Error fetching repos:', error);
+    throw error;
   }
 };
 
-export const fetchRepoReadme = async (username: string, repoName: string): Promise<string> => {
-  const githubToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-  const url = `https://api.github.com/repos/${username}/${repoName}/contents/README.md`;
+// Function to fetch languages for a specific repository
+export const fetchRepoLanguages = async (username: string, repoName: string): Promise<LanguageData> => {
+  if (!username || !repoName) {
+    throw new Error('Username and repository name are required');
+  }
 
-  console.log('Fetching README for:', username, repoName);
-  
+  const githubToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+  const url = `https://api.github.com/repos/${username}/${repoName}/languages`;
+
   try {
+    const headers: HeadersInit = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
+
+    if (githubToken) {
+      headers.Authorization = `Bearer ${githubToken}`;
+    }
+
     const response = await fetch(url, {
-      headers: {
-        ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
-        Accept: "application/vnd.github.v3.raw",
-      },
+      headers,
+      next: {
+        revalidate: 3600
+      }
     });
 
     if (!response.ok) {
-      // Try lowercase readme filename if uppercase doesn't work
-      const lowercaseUrl = `https://api.github.com/repos/${username}/${repoName}/contents/readme.md`;
-      const lowercaseResponse = await fetch(lowercaseUrl, {
-        headers: {
-          ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
-          Accept: "application/vnd.github.v3.raw",
-        },
-      });
-
-      if (!lowercaseResponse.ok) {
-        throw new Error(`README not found for ${repoName}`);
-      }
-
-      return await lowercaseResponse.text();
+      throw new Error(`Failed to fetch languages: ${response.status}`);
     }
 
-    return await response.text();
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching languages:', error);
+    return {};
+  }
+};
+
+// Function to fetch and parse repository README with better error handling
+export const fetchRepoReadme = async (username: string, repoName: string): Promise<{ content: string | null; error: string | null }> => {
+  if (!username || !repoName) {
+    return { 
+      content: null, 
+      error: 'Username and repository name are required' 
+    };
+  }
+
+  const githubToken = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+  const baseHeaders: HeadersInit = {
+    'Accept': 'application/vnd.github.v3.raw',
+  };
+
+  if (githubToken) {
+    baseHeaders.Authorization = `Bearer ${githubToken}`;
+  }
+
+  async function tryFetchReadme(filename: string): Promise<Response> {
+    const url = `https://api.github.com/repos/${username}/${repoName}/contents/${filename}`;
+    return fetch(url, {
+      headers: baseHeaders,
+      next: {
+        revalidate: 3600
+      }
+    });
+  }
+
+  try {
+    // Try multiple README filename variations
+    const filenamesToTry = ['README.md', 'readme.md', 'README.markdown', 'README'];
+    
+    for (const filename of filenamesToTry) {
+      const response = await tryFetchReadme(filename);
+      
+      if (response.ok) {
+        const content = await response.text();
+        return { content, error: null };
+      }
+    }
+
+    return { 
+      content: null, 
+      error: `No README found for ${repoName}` 
+    };
   } catch (error) {
     console.error("Error fetching README:", error);
-    return "No README found for this repository";
+    return { 
+      content: null, 
+      error: error instanceof Error ? error.message : 'Failed to fetch README' 
+    };
   }
 };

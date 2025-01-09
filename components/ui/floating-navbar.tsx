@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { JSX } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 export const FloatingNav = ({
   navItems,
   className,
-  alwaysVisible = false, // New prop with default value
+  alwaysVisible = false,
 }: {
   navItems: {
     name: string;
@@ -44,9 +44,14 @@ export const FloatingNav = ({
         </Link>
       ))}
       <ThemeToggle />
-      <button className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">
+      <Link
+        href="https://google.com"
+        className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Hire Me
-      </button>
+      </Link>
     </motion.div>
   );
 };

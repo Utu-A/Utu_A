@@ -1,10 +1,12 @@
 // components/Projects.tsx
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import ProjectCard from './ProjectCard';
-import { fetchUserRepos } from '@/lib/github';
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { AlertCircle, Loader2 } from "lucide-react";
+import ProjectCard from "./ProjectCard";
+import { fetchUserRepos } from "@/lib/github";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface Repo {
   id: number;
@@ -13,85 +15,158 @@ interface Repo {
   stargazers_count: number;
   updated_at: string;
   html_url: string;
+  language: string | null;
+  fork: boolean;
 }
 
 const Projects = () => {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const username = "Utu-A"; // Replace with your actual username
+  const username = "Utu-A";
   const spinningTexts = ["Featured Projects", "Open Source Work", "Latest Builds"];
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    let isMounted = true;
+    let intervalId: NodeJS.Timeout;
+
     const getRepos = async () => {
+      if (!isMounted) return;
+      
       try {
         setLoading(true);
         setError(null);
+
+        if (!process.env.NEXT_PUBLIC_GITHUB_TOKEN) {
+          throw new Error("GitHub token is not configured");
+        }
+
         const fetchedRepos = await fetchUserRepos(username);
-        
-        if (fetchedRepos.length === 0) {
-          setError('No repositories found. Please check your GitHub username and token.');
+
+        if (!isMounted) return;
+
+        const sortedRepos = Array.isArray(fetchedRepos) 
+          ? fetchedRepos
+              .filter((repo: Repo) => !repo.fork)
+              .sort((a: Repo, b: Repo) => {
+                if (b.stargazers_count !== a.stargazers_count) {
+                  return b.stargazers_count - a.stargazers_count;
+                }
+                return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+              })
+          : [];
+
+        if (sortedRepos.length === 0) {
+          setError("No repositories found");
           return;
         }
 
-        const sortedRepos = fetchedRepos.sort((a: Repo, b: Repo) => {
-          if (b.stargazers_count !== a.stargazers_count) {
-            return b.stargazers_count - a.stargazers_count;
-          }
-          return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-        });
         setRepos(sortedRepos);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch repositories');
+        if (!isMounted) return;
+        setError(err instanceof Error ? err.message : "Failed to fetch repositories");
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     getRepos();
 
-    const interval = setInterval(() => {
-      setCurrentTextIndex((prev) => (prev + 1) % spinningTexts.length);
+
+    intervalId = setInterval(() => {
+      if (isMounted) {
+        setCurrentTextIndex((prev) => (prev + 1) % spinningTexts.length);
+      }
     }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, [username, mounted]);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const renderError = () => (
+    <Alert variant="destructive" className="my-8">
+      <AlertCircle className="h-4 w-4" />
+      <AlertTitle>Error</AlertTitle>
+      <AlertDescription>
+        <p className="mb-2">{error}</p>
+        <p className="text-sm">Troubleshooting steps:</p>
+        <ul className="list-disc list-inside text-sm mt-2 space-y-1">
+          <li>Verify your GitHub username is correct</li>
+          <li>Check that NEXT_PUBLIC_GITHUB_TOKEN is set in .env.local</li>
+          <li>Ensure your GitHub token has the necessary permissions</li>
+          <li>Check your internet connection</li>
+        </ul>
+      </AlertDescription>
+    </Alert>
+  );
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <motion.h1 
-        key={currentTextIndex}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="text-4xl font-bold text-center mb-12"
-      >
-        {spinningTexts[currentTextIndex]}
-      </motion.h1>
+      {/* "Projects and Work" Title */}
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-8 mt-20 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500">
+        Projects and Work
+      </h1>
 
+      <AnimatePresence mode="wait">
+        <motion.h2
+          key={currentTextIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="text-4xl font-bold text-center mb-12"
+        >
+          {spinningTexts[currentTextIndex]}
+        </motion.h2>
+      </AnimatePresence>
+
+      {/* Loading State */}
       {loading && (
-        <div className="text-center py-10">
+        <div className="flex flex-col items-center justify-center py-10 space-y-4">
+          <Loader2 className="w-8 h-8 animate-spin" />
           <p className="text-lg">Loading repositories...</p>
         </div>
       )}
 
-      {error && (
-        <div className="text-center py-10">
-          <p className="text-red-500">{error}</p>
-          <p className="mt-2">Please check:</p>
-          <ul className="list-disc list-inside mt-2">
-            <li>Your GitHub username is correct</li>
-            <li>Your NEXT_PUBLIC_GITHUB_TOKEN is set in .env.local</li>
-            <li>Your GitHub token has the necessary permissions</li>
-          </ul>
-        </div>
+{error && (
+        <Alert variant="destructive" className="my-8">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            <p className="mb-2">{error}</p>
+            <p className="text-sm">Troubleshooting steps:</p>
+            <ul className="list-disc list-inside text-sm mt-2 space-y-1">
+              <li>Verify your GitHub username is correct</li>
+              <li>Check that NEXT_PUBLIC_GITHUB_TOKEN is set in .env.local</li>
+              <li>Ensure your GitHub token has the necessary permissions</li>
+              <li>Check your internet connection</li>
+            </ul>
+          </AlertDescription>
+        </Alert>
       )}
 
       {!loading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {repos.map((repo) => (
-            <ProjectCard key={repo.id} repo={repo} />
+            <ProjectCard
+              key={repo.id}
+              repo={repo}
+            />
           ))}
         </div>
       )}
