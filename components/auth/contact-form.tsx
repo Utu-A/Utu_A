@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
+import { Home, Mail, Linkedin } from "lucide-react";
 
 // Form validation schema
 const formSchema = z.object({
@@ -21,7 +22,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const BookRideForm = () => {
+const ContactMeForm = () => {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
@@ -50,11 +51,11 @@ const BookRideForm = () => {
       });
 
       if (response.ok) {
-        setSuccessMessage("Quote request sent successfully! We'll contact you soon.");
+        setSuccessMessage("I would contact you asap! It's going to be great.");
         form.reset();
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Failed to send quote request. Please try again.");
+        setError(errorData.message || "Failed to send message. Please try again.");
       }
     } catch (error) {
       setError("Something went wrong. Please try again.");
@@ -70,8 +71,8 @@ const BookRideForm = () => {
 
   return (
     <CardWrapper
-      label="Get a Quote"
-      title="Contact Us"
+      label="Let's Get Connected"
+      title="Contact Me"
       backButtonHref="/app/page"
       backButtonLabel="Go to Home"
     >
@@ -83,7 +84,7 @@ const BookRideForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>Your Name</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="John Doe" />
                   </FormControl>
@@ -129,7 +130,7 @@ const BookRideForm = () => {
                   <FormControl>
                     <Textarea 
                       {...field} 
-                      placeholder="Please provide any additional details about your requirements..."
+                      placeholder="Would you like to add any detail...?"
                       className="min-h-[100px]"
                     />
                   </FormControl>
@@ -147,22 +148,38 @@ const BookRideForm = () => {
             )}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Sending..." : "Ask for Quote"}
+              {loading ? "Sending..." : "Send Message"}
             </Button>
           </form>
         </Form>
         
-        {/* Separate "Go to Home" button */}
-        <Button 
-          onClick={handleGoHome}
-          className="w-full"
-          variant="outline"
-        >
-          Go to Home Page
-        </Button>
+        {/* Navigation buttons with icons */}
+        <div className="flex gap-4 justify-center">
+          <Button 
+            onClick={handleGoHome}
+            className="flex-1"
+            variant="outline"
+          >
+            <Home className="w-4 h-4" />
+          </Button>
+          <Button 
+            onClick={() => window.location.href = 'mailto:your.email@example.com'}
+            className="flex-1"
+            variant="outline"
+          >
+            <Mail className="w-4 h-4" />
+          </Button>
+          <Button 
+            onClick={() => window.open('https://linkedin.com/in/your-profile', '_blank')}
+            className="flex-1"
+            variant="outline"
+          >
+            <Linkedin className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </CardWrapper>
   );
 };
 
-export default BookRideForm;
+export default ContactMeForm;

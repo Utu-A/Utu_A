@@ -44,50 +44,77 @@ const FloatingDockMobile = ({
   className,
 }: FloatingDockMobileProps) => {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
-    <div className={cn("relative block md:hidden", className)}>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            layoutId="nav"
-            className="absolute bottom-full mb-2 inset-x-0 flex flex-col gap-2"
-          >
-            {items.map((item, idx) => (
+    <>
+      {/* Theme Toggle Button - Left Side */}
+      <div className="fixed top-8 left-8 block md:hidden z-50">
+        <button
+          onClick={() => {
+            if (theme === "dark") setTheme("light");
+            else if (theme === "light") setTheme("system");
+            else setTheme("dark");
+          }}
+          className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center shadow-lg"
+        >
+          {theme === "dark" ? (
+            <IconSun className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+          ) : theme === "light" ? (
+            <IconMoon className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+          ) : (
+            <IconAdjustments className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+          )}
+        </button>
+      </div>
+
+      {/* Menu Icon and Dropdown - Right Side */}
+      <div className={cn("fixed top-20 right-8 block md:hidden z-50", className)}>
+        <div className="relative">
+          <AnimatePresence>
+            {open && (
               <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: 10,
-                  transition: {
-                    delay: idx * 0.05,
-                  },
-                }}
-                transition={{ delay: (items.length - 1 - idx) * 0.05 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="absolute right-0 top-12 p-4 bg-gray-50 dark:bg-neutral-900 rounded-2xl shadow-lg w-64"
               >
-                <Link
-                  href={item.href}
-                  key={item.title}
-                  className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-900 flex items-center justify-center"
-                >
-                  <div className="h-4 w-4">{item.icon}</div>
-                </Link>
+                <div className="grid grid-cols-3 gap-4">
+                  {items.map((item) => (
+                    <Link
+                      href={item.href}
+                      key={item.title}
+                      className="flex flex-col items-center gap-2"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center">
+                        <div className="h-4 w-4">{item.icon}</div>
+                      </div>
+                      <span className="text-xs text-neutral-600 dark:text-neutral-400 text-center">
+                        {item.title}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <button
-        onClick={() => setOpen(!open)}
-        className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center"
-      >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-      </button>
-    </div>
+            )}
+          </AnimatePresence>
+          <button
+            onClick={() => setOpen(!open)}
+            className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center shadow-lg"
+          >
+            <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -133,7 +160,6 @@ const FloatingDockDesktop = ({
           </div>
         );
       })}
-      {/* Dark mode toggle button */}
       <Separator orientation="vertical" className="h-8 mx-2" />
       <button
         onClick={() => {
@@ -171,13 +197,11 @@ function IconContainer({
 }: IconContainerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Calculate distance from mouse to icon center
   const distance = useTransform(mouseX, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  // Transform the margin instead of the width/height
   const marginTransform = useTransform(distance, [-150, 0, 150], [0, 20, 0]);
   const margin = useSpring(marginTransform, {
     mass: 0.1,

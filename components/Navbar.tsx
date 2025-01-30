@@ -4,7 +4,7 @@
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { IconHome, IconBrandGithub, IconMail } from "@tabler/icons-react";
 import { Library, Terminal } from 'lucide-react';
-import { RiNotionFill } from "react-icons/ri";
+import { TbBrandLeetcode } from "react-icons/tb";
 import { useTheme } from "next-themes";
 
 const Navbar = () => {
@@ -32,9 +32,9 @@ const Navbar = () => {
       group: 2
     },
     {
-      title: "Notion",
-      icon: <RiNotionFill className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: "https://notion.so/yourusername",
+      title: "LeetCode",
+      icon: <TbBrandLeetcode className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      href: "https://leetcode.com/u/atlas_2302/",
       group: 2
     },
     {

@@ -7,20 +7,22 @@ import { SpinningText } from "@/components/ui/spinning-text";
 const ProfileCard: React.FC = () => {
   return (
     <div className="bg-card rounded-2xl p-12">
-      <div className="relative w-48 h-48 mx-auto mb-9">
+      <div className="relative w-48 h-48 mx-auto mb-9 flex items-center justify-center">
+        <div className="absolute inset-0 rounded-full bg-card" />
+        <img
+          src="/images/dev.jpeg"
+          alt="Profile"
+          className="absolute inset-0 rounded-full object-cover"
+          style={{ zIndex: 1 }}
+        />
         <SpinningText
           radius={17}
           fontSize={0.8}
           className="absolute inset-0 translate-y-2 font-medium leading-none text-peach-500"
+          style={{ zIndex: 2 }}
         >
           UTKARSH SINGH • UTKARSH SINGH • UTKARSH SINGH • UTKARSH SINGH •
         </SpinningText>
-        <div className="absolute inset-6 bg-card rounded-full" />
-        <img
-          src="/api/placeholder/192/192"
-          alt="Profile"
-          className="absolute inset-10 rounded-full object-cover"
-        />
       </div>
       <h2 className="text-2xl font-bold text-center mb-2">Utkarsh Singh</h2>
       <p className="text-muted-foreground text-center mb-6">

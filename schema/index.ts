@@ -20,9 +20,6 @@ export const BookSchema = z.object({
     .max(10, {
         message: "Please enter a valid phone number",
       }),
-    payload : z.string().min(1, {
-        message: "Enter weight below 1 Tonne"
-    }),
     message: z.string().max(10000,{
         message:"Enter Additional Information"
     })

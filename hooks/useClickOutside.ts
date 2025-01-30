@@ -1,3 +1,5 @@
+'use client';
+
 import { RefObject, useEffect } from 'react';
 
 function useClickOutside<T extends HTMLElement | null>(
@@ -9,13 +11,13 @@ function useClickOutside<T extends HTMLElement | null>(
       if (!ref || !ref.current || ref.current.contains(event.target as Node)) {
         return;
       }
-
+      
       handler(event);
     };
-
+    
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('touchstart', handleClickOutside);
-
+    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);

@@ -48,15 +48,31 @@ const nextConfig: NextConfig = {
     // Add your environment variables here
   },
 
-  // Webpack configuration with punycode warning suppression
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Suppress punycode deprecation warnings
+  // Webpack configuration with enhanced source map handling
+  webpack: (config, { isServer, dev }) => {
+    // Suppress warnings
     config.ignoreWarnings = [
       ...(config.ignoreWarnings || []),
+      // Suppress punycode deprecation warnings
       {
         module: /node_modules\/punycode/,
+      },
+      // Suppress react-icon-cloud source map warnings
+      {
+        module: /react-icon-cloud/,
       }
     ];
+
+    // Disable source maps for react-icon-cloud
+    config.module.rules.push({
+      test: /react-icon-cloud/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          sourceMaps: false
+        }
+      }
+    });
 
     // Warning suppression for Node.js modules
     if (isServer) {
@@ -69,8 +85,11 @@ const nextConfig: NextConfig = {
       };
     }
 
-    // Add any other custom webpack configuration here if needed
-    
+    // Disable source maps in production
+    if (!dev) {
+      config.devtool = false;
+    }
+
     return config;
   },
 
@@ -79,6 +98,9 @@ const nextConfig: NextConfig = {
     // Optionally enable type checking during build
     ignoreBuildErrors: false,
   },
+
+  // Disable source maps in production browser builds
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;
