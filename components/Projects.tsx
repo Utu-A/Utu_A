@@ -7,7 +7,6 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import { fetchUserRepos } from "@/lib/github";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { SpinningText } from "./ui/spinning-text";
 
 interface Repo {
   id: number;
@@ -102,7 +101,7 @@ const Projects = () => {
     return null;
   }
 
-  const renderError = () => (
+/*  const renderError = () => (
     <Alert variant="destructive" className="my-8">
       <AlertCircle className="h-4 w-4" />
       <AlertTitle>Error</AlertTitle>
@@ -118,6 +117,7 @@ const Projects = () => {
       </AlertDescription>
     </Alert>
   );
+*/
 
   return (
     <div className="container mx-auto px-4 py-8">

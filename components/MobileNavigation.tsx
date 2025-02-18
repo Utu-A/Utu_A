@@ -4,7 +4,6 @@ import { IconHome, IconBrandGithub, IconMail } from "@tabler/icons-react";
 import { Library, Terminal, Menu } from 'lucide-react';
 import { TbBrandLeetcode } from "react-icons/tb";
 import { Button } from '@/components/ui/button';
-import { useTheme } from 'next-themes';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Link from 'next/link';
 

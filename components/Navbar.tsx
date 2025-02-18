@@ -5,7 +5,6 @@ import { FloatingDock } from "@/components/ui/floating-dock";
 import { IconHome, IconBrandGithub, IconMail } from "@tabler/icons-react";
 import { Library, Terminal } from 'lucide-react';
 import { TbBrandLeetcode } from "react-icons/tb";
-import { useTheme } from "next-themes";
 
 const Navbar = () => {
   
