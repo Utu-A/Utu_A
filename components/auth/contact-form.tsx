@@ -170,7 +170,7 @@ const ContactMeForm = () => {
             <Mail className="w-4 h-4" />
           </Button>
           <Button 
-            onClick={() => window.open('https://linkedin.com/in/your-profile', '_blank')}
+            onClick={() => window.open('https://www.linkedin.com/in/utkarshsinghrajput23/', '_blank')}
             className="flex-1"
             variant="outline"
           >
