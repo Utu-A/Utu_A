@@ -73,7 +73,7 @@ const AboutPage = () => {
 
             <div className="space-y-4">
               <p className="text-lg text-slate-300">
-                Hello! I'm a final-year Electrical Engineering student passionate about technology and innovation. I serve as the cybersecurity leader at my college, contributing to a safe digital environment and raising awareness about cybersecurity best practices. Additionally, I'm the secretary of the robotics team, where I help drive projects and foster collaboration among team members. As the payload lead of the rocketry team, I ensure the development of payload systems for successful rocket launches.
+                Hello! I&apos;m a final-year Electrical Engineering student passionate about technology and innovation. I serve as the cybersecurity leader at my college, contributing to a safe digital environment and raising awareness about cybersecurity best practices. Additionally, I&apos;m the secretary of the robotics team, where I help drive projects and foster collaboration among team members. As the payload lead of the rocketry team, I ensure the development of payload systems for successful rocket launches.
               </p>
 
               <p className="text-lg text-slate-300">
@@ -81,7 +81,7 @@ const AboutPage = () => {
               </p>
 
               <p className="text-lg text-slate-200">
-                Feel free to explore my projects and reach out if you'd like to collaborate or discuss ideas. I'm always open to exciting opportunities in the fields of technology, engineering, and research.
+                Feel free to explore my projects and reach out if you&apos;d like to collaborate or discuss ideas. I&apos;m always open to exciting opportunities in the fields of technology, engineering, and research.
               </p>
             </div>
 

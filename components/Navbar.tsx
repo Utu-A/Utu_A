@@ -8,7 +8,6 @@ import { TbBrandLeetcode } from "react-icons/tb";
 import { useTheme } from "next-themes";
 
 const Navbar = () => {
-  const { theme } = useTheme();
   
   const dockItems = [
     // Group 1: Home and Research

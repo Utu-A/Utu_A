@@ -18,24 +18,6 @@ const scrollbarHiddenStyles = `
   scrollbar-width: none;
 `;
 
-const FadingText = ({ children }: { children: ReactNode }) => {
-  const textRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: textRef,
-    offset: ["start start", "end start"],
-  });
-
-  return (
-    <motion.div
-      ref={textRef}
-      style={{ opacity: scrollYProgress }}
-      className="w-full"
-    >
-      {children}
-    </motion.div>
-  );
-};
-
 interface SectionProps {
   children: ReactNode;
   className?: string;

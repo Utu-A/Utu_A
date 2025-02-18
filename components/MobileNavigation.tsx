@@ -11,7 +11,6 @@ import Link from 'next/link';
 const MobileNavigation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const isMobile = useIsMobile();
-  const { theme } = useTheme();
 
   const navigationItems = [
     {

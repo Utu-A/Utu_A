@@ -7,6 +7,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import { fetchUserRepos } from "@/lib/github";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { SpinningText } from "./ui/spinning-text";
 
 interface Repo {
   id: number;
@@ -27,6 +28,7 @@ const Projects = () => {
   const spinningTexts = ["Featured Projects", "Open Source Work", "Latest Builds"];
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -36,7 +38,6 @@ const Projects = () => {
     if (!mounted) return;
 
     let isMounted = true;
-    let intervalId: NodeJS.Timeout;
 
     const getRepos = async () => {
       if (!isMounted) return;
@@ -82,19 +83,21 @@ const Projects = () => {
 
     getRepos();
 
+ const newIntervalId = setInterval(() => {
+    if (isMounted) {
+      setCurrentTextIndex((prev) => (prev + 1) % spinningTexts.length);
+    }
+  }, 3000);
 
-    intervalId = setInterval(() => {
-      if (isMounted) {
-        setCurrentTextIndex((prev) => (prev + 1) % spinningTexts.length);
-      }
-    }, 3000);
+  setIntervalId(newIntervalId);
 
-    return () => {
-      isMounted = false;
+  return () => {
+    isMounted = false;
+    if (intervalId) {
       clearInterval(intervalId);
-    };
-  }, [username, mounted]);
-
+    }
+  };
+}, [username, mounted, spinningTexts.length]);
   if (!mounted) {
     return null;
   }
