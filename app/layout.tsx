@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description: "Utkarsh Singh is a software developer specializing in web development, innovative projects, and technological research. Explore my portfolio to see my latest work and achievements.",
   keywords: ["Utkarsh Singh", "software developer", "web developer", "portfolio", "projects", "research", "STES","Rocketry","Robotics","technology", "programming"],
   verification: {
-    google: "googlebe79f981e15a36f1.html", // Replace with the code Google gives you
+    google: "VIISBcMdz-ry3c4AWjouvcnz_D5cxJfl15tC7fufm3w", // Replace with the code Google gives you
   },
   robots: {
     index: true,
@@ -44,6 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <meta name="google-site-verification" content="VIISBcMdz-ry3c4AWjouvcnz_D5cxJfl15tC7fufm3w" />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen`}>
         <ThemeProvider
           attribute="class"
