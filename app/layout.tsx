@@ -21,9 +21,6 @@ export const metadata: Metadata = {
   title: "Utkarsh Singh - Software Developer & Technology Enthusiast",
   description: "Utkarsh Singh is a software developer specializing in web development, innovative projects, and technological research. Explore my portfolio to see my latest work and achievements.",
   keywords: ["Utkarsh Singh", "software developer", "web developer", "portfolio", "projects", "research", "STES","Rocketry","Robotics","technology", "programming"],
-  verification: {
-    google: "googlebe79f981e15a36f1.html", // Replace with the code Google gives you
-  },
   robots: {
     index: true,
     follow: true,
