@@ -18,15 +18,30 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Utkarsh Singh",
-  description: "Utkarsh Singh Portfolio",
+  title: "Utkarsh Singh - Software Developer & Technology Enthusiast",
+  description: "Utkarsh Singh is a software developer specializing in web development, innovative projects, and technological research. Explore my portfolio to see my latest work and achievements.",
+  keywords: ["Utkarsh Singh", "software developer", "web developer", "portfolio", "projects", "research", "STES","Rocketry","Robotics","technology", "programming"],
+  verification: {
+    google: "googlebe79f981e15a36f1.html", // Replace with the code Google gives you
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  }
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen`}>
