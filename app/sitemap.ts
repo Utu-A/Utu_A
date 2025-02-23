@@ -2,28 +2,30 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://utu-a.vercel.app';
+
   return [
     {
-      url: 'https://utu-a.vercel.app',
-      lastModified: new Date(),
+      url: baseUrl,
+      lastModified: new Date().toISOString(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://utu-a.vercel.app/research',
-      lastModified: new Date(),
+      url: `${baseUrl}/research`,
+      lastModified: new Date().toISOString(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: 'https://utu-a.vercel.app/project',
-      lastModified: new Date(),
+      url: `${baseUrl}/project`,
+      lastModified: new Date().toISOString(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: 'https://utu-a.vercel.app/auth/contact',
-      lastModified: new Date(),
+      url: `${baseUrl}/auth/contact`,
+      lastModified: new Date().toISOString(),
       changeFrequency: 'monthly',
       priority: 0.5,
     }
