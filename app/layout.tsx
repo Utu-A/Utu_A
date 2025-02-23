@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Utkarsh Singh - Software Developer & Technology Enthusiast",
   description: "Utkarsh Singh is a software developer specializing in web development, innovative projects, and technological research. Explore my portfolio to see my latest work and achievements.",
-  keywords: ["Utkarsh Singh", "software developer", "web developer", "portfolio", "projects", "research", "STES","Rocketry","Robotics","technology", "programming"],
+  keywords: ["Utkarsh Singh", "Utkarsh singh vercel","utu vercel","software developer", "web developer", "portfolio", "projects", "research", "STES","Rocketry","Robotics","technology", "programming"],
   verification: {
     google: "VIISBcMdz-ry3c4AWjouvcnz_D5cxJfl15tC7fufm3w", // Replace with the code Google gives you
   },
